@@ -1,0 +1,72 @@
+#include <stdio.h>
+
+int const Tam=101;
+int C,Dimension,A,B,NoCero,Col,C1,C2,A,NoReg,Perm=0;
+
+void PideDatos(int *Dim, float Mat[][Tam]);
+void EscribeDatos(int Dim, float Mat[][Tam]);
+void CalcDet(int Dim, float Mat[][Tam]);
+
+
+int main(void)
+{
+
+ float Matriz[Tam][Tam];
+ PideDatos(&Dimension,Matriz);
+ printf("\n\n\nCalcula el Determinante: \n\n");
+ EscribeDatos(Dimension,Matriz);
+ CalcDet(Dimension,Matriz);
+
+ scanf("%d");
+ return(0);
+}
+
+
+void PideDatos(int *Dim,float Mat[][Tam])
+{
+ printf("\n\n Programa para calcular el determinante de una matriz nxn ");
+ printf("\n\n\n Introduce la dimension de la matriz:");
+ scanf("%d",&*Dim);
+ printf("\n\n Introduce cada componente de la matriz:");
+ for(A=1;A<=*Dim;A++) for(B=1;B<=*Dim;B++){
+  printf("\n Termino A(%d,%d):",A,B); scanf("%f",&Mat[A][B]);}
+}
+
+void EscribeDatos(int Dim, float Mat[][Tam])
+{
+ for(A=1;A<=Dim;A++){
+  for(B=1;B<=(Dim);B++)
+   printf("%7.2f",Mat[A][B]);
+  printf("\n");
+ }}
+
+void CalcDet(int Dim, float Mat[][Tam])
+{
+
+ float Pivote,V1,Det=1;
+
+ for(Col=1;Col<=Dim;Col++){
+  NoCero=0;A=Col;
+  while((NoCero==0)&&(A<=Dim)){
+   if((Mat[A][Col]>0.0000001)||((Mat[A][Col]<-0.0000001))){
+    NoCero=1;}
+   else A++;}
+  if (A>Dim) NoReg=1;
+  if (A!=Col) Perm++;
+  Pivote=Mat[A][Col];
+  for(C1=1;C1<=(Dim);C1++){
+   V1=Mat[A][C1];
+   Mat[A][C1]=Mat[Col][C1];
+   Mat[Col][C1]=V1;}
+  for(C2=Col+1;C2<=Dim;C2++){
+   V1=Mat[C2][Col];
+   for(C1=Col;C1<=(Dim);C1++){
+    Mat[C2][C1]=Mat[C2][C1]-((V1/Pivote)*Mat[Col][C1]);}}
+ }
+    for(C2=1;C2<=Dim;C2++) Det=Det*Mat[C2][C2];
+ A=Perm;
+ if ((A%2)==1) Det=-Det; /*Caso de permutaciones impares*/
+ if (NoReg==1) Det=0;
+    printf("El determinante de la matriz es:   %f", Det);
+
+}
